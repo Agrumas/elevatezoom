@@ -31,8 +31,10 @@ if ( typeof Object.create !== 'function' ) {
 
 				self.imageSrc = self.$elem.data("zoom-image") ? self.$elem.data("zoom-image") : self.$elem.attr("src");
 
-				self.options = $.extend( {}, $.fn.elevateZoom.options, options );
+				self.options = $.extend( {}, $.fn.elevateZoom.options, self.responsiveConfig(options || {}) );
 
+				if (!self.options.enabled) return;
+				
 				//TINT OVERRIDE SETTINGS
 				if(self.options.tint) {
 					self.options.lensColour = "none", //colour of the lens background
@@ -1673,6 +1675,26 @@ if ( typeof Object.create !== 'function' ) {
       	var self = this;
 				if(value == 'enable'){self.options.zoomEnabled = true;}
 				if(value == 'disable'){self.options.zoomEnabled = false;}
+			},
+			responsiveConfig: function (options) {
+				if (options.respond && options.respond.length > 0) {
+					return $.extend({}, options, this.configByScreenWidth(options));
+				}
+				return options;
+			},
+			configByScreenWidth: function (options) {
+				var screenWidth = $(window).width();
+
+				var config = $.grep(options.respond, function (item) {
+					var range = item.range.split('-');	
+					return (screenWidth >= range[0]) && (screenWidth <= range[1])
+				});
+
+				if (config.length > 0) {
+					return config[0]
+				} else {
+					return options;
+				}
 			}
 	};
 
@@ -1700,6 +1722,7 @@ if ( typeof Object.create !== 'function' ) {
 			debug: false,
 			easing: false,
 			easingAmount: 12,
+			enabled: true,
 			gallery: false,
 			galleryActiveClass: "zoomGalleryActive",
 			imageCrossfade: false,
@@ -1720,6 +1743,7 @@ if ( typeof Object.create !== 'function' ) {
 			onImageSwapComplete: $.noop,
 			onZoomedImageLoaded: function() {},
 			preloading: 1, //by default, load all the images, if 0, then only load images after activated (PLACEHOLDER FOR NEXT VERSION)
+			respond: [],
 			responsive:true,
 			scrollZoom: false, //allow zoom on mousewheel, true to activate
 			scrollZoomIncrement: 0.1,  //steps of the scrollzoom
