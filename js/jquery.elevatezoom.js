@@ -33,6 +33,8 @@ if ( typeof Object.create !== 'function' ) {
 
 				self.options = $.extend( {}, $.fn.elevateZoom.options, self.responsiveConfig(options || {}) );
 
+				if (!self.options.enabled) return;
+				
 				//TINT OVERRIDE SETTINGS
 				if(self.options.tint) {
 					self.options.lensColour = "none", //colour of the lens background
@@ -1720,6 +1722,7 @@ if ( typeof Object.create !== 'function' ) {
 			debug: false,
 			easing: false,
 			easingAmount: 12,
+			enabled: true,
 			gallery: false,
 			galleryActiveClass: "zoomGalleryActive",
 			imageCrossfade: false,
