@@ -749,7 +749,9 @@ if ( typeof Object.create !== 'function' ) {
 						}
 						else{self.zoomWindow.show();}
 						self.isWindowActive = true;
-					}            
+					}
+					
+					$(window).keydown(function(){ self.closeAll(); });
 				}
 				if(change == "hide"){
 					if(self.isWindowActive){
@@ -1667,6 +1669,7 @@ if ( typeof Object.create !== 'function' ) {
 				//
 			},
 			closeAll: function(){
+				var self = this;
 				if(self.zoomWindow){self.zoomWindow.hide();}
 				if(self.zoomLens){self.zoomLens.hide();}
 				if(self.zoomTint){self.zoomTint.hide();}
