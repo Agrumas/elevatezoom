@@ -95,5 +95,36 @@ $(document).ready(function () {
   $("#zoom_04c").elevateZoom({zoomWindowPosition: "demo-container", zoomWindowHeight: 200, zoomWindowWidth:200, borderSize: 0, easing:true}); 
 </script>
 
+<hr />
+
+<h1>Screen-size sesitivity</h1>
+
+<p>
+  Not truly responsive yet, since it goes based off the screen width when the object is initialized
+</p>
+<p>
+  <img id="responsive" src="images/small/image1.png" data-zoom-image="images/large/image1.jpg"/>
+</p>
+
+<script>
+$(function () {
+  $("#responsive").elevateZoom({
+    tint:true, 
+    tintColour:'#0F0', 
+    tintOpacity:0.5,
+    respond: [
+      {
+        range: '600-799',
+        tintColour: '#F00'
+      },
+      {
+        range: '800-1199',
+        tintColour: '#00F'
+      },
+    ]
+  }); 
+})
+</script>
+
 </body>
 </html>
